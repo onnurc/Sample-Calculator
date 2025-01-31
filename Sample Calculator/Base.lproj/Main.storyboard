@@ -69,6 +69,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="/">
                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="division:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xsO-Ay-sLi"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -116,6 +119,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="X">
                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="multiplicationClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jrV-CR-orn"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

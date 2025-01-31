@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-    
+    var result : Double = 0.0
     @IBAction func onPlusClicked(_ sender: Any) {
         addChar(value: "+")
         
@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     
     @IBAction func onSubstractClicked(_ sender: Any) {
         addChar(value: "-")
+        
         //12+5
         
     }
@@ -47,8 +48,15 @@ class ViewController: UIViewController {
     @IBAction func percentClicked(_ sender: Any) {
         
     }
+    @IBAction func multiplicationClicked(_ sender: Any) {
+        addChar(value: "X")
+    }
+    @IBAction func division(_ sender: Any) {
+        addChar(value: "/")
+    }
     
     @IBAction func onResaultClicked(_ sender: Any) {
+        
         calculateResult()
     }
     @IBAction func digitZeroClicked(_ sender: Any) {
@@ -105,11 +113,10 @@ class ViewController: UIViewController {
         
     }
     func calculateResult() {
-        var numbers : [String] = []
         
         if let text = label.text {
-            var numbers = text.components(separatedBy: ["+", "-"])
-            var operators = text.filter { $0 == "+" || $0 == "-" }.map { String($0) }
+            var numbers = text.components(separatedBy: ["+", "-","X","/"])
+            var operators = text.filter { $0 == "+" || $0 == "-" || $0 == "X" || $0 == "/" }.map { String($0) }
             
             var result: [String] = []
             for (index, number) in numbers.enumerated() {
@@ -118,27 +125,57 @@ class ViewController: UIViewController {
                     result.append(operators[index])
                 }
             }
-            while numbers.count > 1 {
+            while numbers.count > 1 && operators.count >= 1 {
+                 
+                if operators.count > 1 && operators[1] == "X"{
+                    var result = Double(numbers[1])! * Double(numbers[2])!
+                    numbers.remove(at: 2)
+                    numbers.remove(at: 1)
+                    operators.remove(at: 1)
+                    numbers.insert(String(result), at: 1)
+                }
                 
-                if operators[0] == "+"{
-                    var result = Double(numbers[0])! + Double(numbers[1])!
+                
+                if  operators.count > 0 && operators[0] == "X"{
+                    var result = Double(numbers[0])! * Double(numbers[1])!
                     numbers.removeFirst(2)
-                    operators.removeFirst(0)
-
+                    operators.removeFirst()
                     numbers.insert(String(result), at: 0)
                 }
-                if operators[0] == "-"{
+                if operators.count > 1 && operators[1] == "/"{
+                    var result = Double(numbers[1])! / Double(numbers[2])!
+                    numbers.remove(at: 2)
+                    numbers.remove(at: 1)
+                    operators.remove(at: 1)
+                    numbers.insert(String(result), at: 1)
+                }
+                if  operators.count > 0 && operators[0] == "/"{
+                    var result = Double(numbers[0])! / Double(numbers[1])!
+                    numbers.removeFirst(2)
+                    operators.removeFirst()
+                    numbers.insert(String(result), at: 0)
+                }
+                
+                
+                if  operators.count > 0 && operators[0] == "+"{
+                    var result = Double(numbers[0])! + Double(numbers[1])!
+                    numbers.removeFirst(2)
+                    operators.removeFirst()
+                    numbers.insert(String(result), at: 0)
+                }
+                if operators.count > 0 && operators[0] == "-"{
                     var result = Double(numbers[0])! - Double(numbers[1])!
                     numbers.removeFirst(2)
-                    operators.removeFirst(0)
+                    operators.removeFirst()
                     numbers.insert(String(result), at: 0)
                 }
 
             }
+            label.text = numbers.first
 
         }
         
-        label.text = String(numbers[0]
+        
     }
     
     
