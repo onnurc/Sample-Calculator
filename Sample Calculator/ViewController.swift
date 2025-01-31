@@ -7,6 +7,10 @@
 
 import UIKit
 
+
+
+
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var label: UILabel!
@@ -19,30 +23,40 @@ class ViewController: UIViewController {
     @IBAction func onPlusClicked(_ sender: Any) {
         addChar(value: "+")
         
+        
     }
     
-    @IBAction func onResultClicked(_ sender: Any) {
-        calculateResult()
+    @IBAction func onSubstractClicked(_ sender: Any) {
+        addChar(value: "-")
+        //12+5
+        
     }
+    
     
     @IBAction func allClearClicked(_ sender: Any) {
         label.text = ""
+        
+        
     }
     
     @IBAction func reversePNClicked(_ sender: Any) {
         reversePositiveNegative()
     }
-
+    
     
     @IBAction func percentClicked(_ sender: Any) {
         
     }
     
+    @IBAction func onResaultClicked(_ sender: Any) {
+        calculateResult()
+    }
     @IBAction func digitZeroClicked(_ sender: Any) {
         addChar(value: "0")
     }
     @IBAction func digitOneClicked(_ sender: Any) {
         addChar(value: "1")
+        
         
     }
     @IBAction func digitTwoClicked(_ sender: Any) {
@@ -87,24 +101,45 @@ class ViewController: UIViewController {
     }
     
     func addChar(value: String) {
-        label.text = (label.text ?? "") + value
+        label.text = label.text! + value
+        
     }
-
-    
-    
     func calculateResult() {
+        var numbers : [String] = []
+        
         if let text = label.text {
-            var result = 0
-            text.split(separator: "+").forEach {
-                if let value = Int($0) {
-                    result += value
+            var numbers = text.components(separatedBy: ["+", "-"])
+            var operators = text.filter { $0 == "+" || $0 == "-" }.map { String($0) }
+            
+            var result: [String] = []
+            for (index, number) in numbers.enumerated() {
+                result.append(number)
+                if index < operators.count {
+                    result.append(operators[index])
                 }
             }
-            label.text = String(result)
-            
-        } else {
-            print("optionalValue is nil")
-        }
-    }
-}
+            while numbers.count > 1 {
+                
+                if operators[0] == "+"{
+                    var result = Double(numbers[0])! + Double(numbers[1])!
+                    numbers.removeFirst(2)
+                    operators.removeFirst(0)
 
+                    numbers.insert(String(result), at: 0)
+                }
+                if operators[0] == "-"{
+                    var result = Double(numbers[0])! - Double(numbers[1])!
+                    numbers.removeFirst(2)
+                    operators.removeFirst(0)
+                    numbers.insert(String(result), at: 0)
+                }
+
+            }
+
+        }
+        
+        label.text = String(numbers[0]
+    }
+    
+    
+}
