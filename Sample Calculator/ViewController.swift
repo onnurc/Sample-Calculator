@@ -17,20 +17,43 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+      
+        
     }
+
+
+    
     var result : Double = 0.0
     @IBAction func onPlusClicked(_ sender: Any) {
+        let myText = label.text
+        let myTextArray = Array(myText!).map { String($0) }
+        if myTextArray.last == "+" || myTextArray.isEmpty{
+            
+            return
+        }
+        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+            
+            return
+        }
         addChar(value: "+")
-        
-        
+
+
     }
     
     @IBAction func onSubstractClicked(_ sender: Any) {
+        let myText = label.text
+        let myTextArray = Array(myText!).map { String($0) }
+        if myTextArray.last == "-" || myTextArray.isEmpty{
+            
+            return
+            
+        }
+        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+            
+            return
+        }
+        
         addChar(value: "-")
-        
-        //12+5
-        
     }
     
     
@@ -49,16 +72,51 @@ class ViewController: UIViewController {
         
     }
     @IBAction func multiplicationClicked(_ sender: Any) {
+        let myText = label.text
+        let myTextArray = Array(myText!).map { String($0) }
+        if myTextArray.last == "X" || myTextArray.isEmpty{
+            
+            return
+            
+        }
+        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+            
+            return
+        }
+        
         addChar(value: "X")
     }
     @IBAction func division(_ sender: Any) {
+        let myText = label.text
+        let myTextArray = Array(myText!).map { String($0) }
+        if myTextArray.last == "/" || myTextArray.isEmpty{
+            
+            return
+            
+        }
+        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+
+            return
+        }
         addChar(value: "/")
     }
     
-    @IBAction func onResaultClicked(_ sender: Any) {
+    @IBAction func onResultClicked(_ sender: Any) {
+        let myText = label.text
+        let myTextArray = Array(myText!).map { String($0) }
+        
+        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+
+            return
+        }
         
         calculateResult()
     }
+    
+ 
+    
+    
+    
     @IBAction func digitZeroClicked(_ sender: Any) {
         addChar(value: "0")
     }
@@ -84,6 +142,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func digitSixClicked(_ sender: Any) {
+    
         addChar(value: "6")
     }
     @IBAction func digitSevenClicked(_ sender: Any) {
@@ -112,6 +171,7 @@ class ViewController: UIViewController {
         label.text = label.text! + value
         
     }
+    
     func calculateResult() {
         
         if let text = label.text {
