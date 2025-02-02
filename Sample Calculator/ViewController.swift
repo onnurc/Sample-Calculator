@@ -18,10 +18,29 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
       
-        
+        let gestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(gestureFired))
+        gestureRecognizer.direction = .left
+        gestureRecognizer.numberOfTouchesRequired = 1
+        label.addGestureRecognizer(gestureRecognizer)
+        label.isUserInteractionEnabled = true
     }
+    
+    @objc func gestureFired(_ gesture: UISwipeGestureRecognizer){
+        if let swipedLabel = gesture.view{
+            if let currentText = label.text, !currentText.isEmpty {
+                       var characters = Array(currentText)
+                       characters.removeLast()
+                       label.text = String(characters)
+                   }
+            
+            
+        }
+    }
+    
+    
 
 
+    
     
     var result : Double = 0.0
     @IBAction func onPlusClicked(_ sender: Any) {
