@@ -45,35 +45,51 @@ class ViewController: UIViewController {
     var result : Double = 0.0
     @IBAction func onPlusClicked(_ sender: Any) {
         let myText = label.text
-        let myTextArray = Array(myText!).map { String($0) }
+        var myTextArray = Array(myText!).map { String($0) }
         if myTextArray.last == "+" || myTextArray.isEmpty{
             
             return
         }
-        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+        if myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+            
+            
+            myTextArray.removeLast()
+            myTextArray.append("+")
+            var myStringArray = myTextArray.joined()
+            
+            label.text = myStringArray
             
             return
         }
         addChar(value: "+")
-
+        
 
     }
     
     @IBAction func onSubstractClicked(_ sender: Any) {
         let myText = label.text
-        let myTextArray = Array(myText!).map { String($0) }
+        var myTextArray = Array(myText!).map { String($0) }
         if myTextArray.last == "-" || myTextArray.isEmpty{
             
             return
             
         }
-        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+        if myTextArray.last == "+" || myTextArray.last == "X" || myTextArray.last == "/" {
+            
+            
+            myTextArray.removeLast()
+            myTextArray.append("-")
+            var myStringArray = myTextArray.joined()
+            
+            label.text = myStringArray
             
             return
         }
-        
         addChar(value: "-")
+        
+
     }
+    
     
     
     @IBAction func allClearClicked(_ sender: Any) {
@@ -88,36 +104,55 @@ class ViewController: UIViewController {
     
     
     @IBAction func percentClicked(_ sender: Any) {
+        addChar(value: "%")
         
     }
     @IBAction func multiplicationClicked(_ sender: Any) {
         let myText = label.text
-        let myTextArray = Array(myText!).map { String($0) }
+        var myTextArray = Array(myText!).map { String($0) }
         if myTextArray.last == "X" || myTextArray.isEmpty{
             
             return
             
         }
-        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
+        if myTextArray.last == "-" || myTextArray.last == "+" || myTextArray.last == "/" {
+            
+            
+            myTextArray.removeLast()
+            myTextArray.append("X")
+            var myStringArray = myTextArray.joined()
+            
+            label.text = myStringArray
             
             return
         }
-        
         addChar(value: "X")
+        
+
     }
+    
     @IBAction func division(_ sender: Any) {
         let myText = label.text
-        let myTextArray = Array(myText!).map { String($0) }
+        var myTextArray = Array(myText!).map { String($0) }
         if myTextArray.last == "/" || myTextArray.isEmpty{
             
             return
             
         }
-        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
-
+        if myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "+" {
+            
+            
+            myTextArray.removeLast()
+            myTextArray.append("/")
+            var myStringArray = myTextArray.joined()
+            
+            label.text = myStringArray
+            
             return
         }
         addChar(value: "/")
+        
+
     }
     
     @IBAction func onResultClicked(_ sender: Any) {
@@ -207,6 +242,10 @@ class ViewController: UIViewController {
             while numbers.count > 1 && operators.count >= 1 {
                  
                 if operators.count > 1 && operators[1] == "X"{
+                    if Double(numbers[1]) == 0 && Double(numbers[2]) == 0 {
+                        label.text = "Undefined"
+                        return
+                    }
                     var result = Double(numbers[1])! * Double(numbers[2])!
                     numbers.remove(at: 2)
                     numbers.remove(at: 1)
@@ -216,12 +255,20 @@ class ViewController: UIViewController {
                 
                 
                 if  operators.count > 0 && operators[0] == "X"{
+                    if Double(numbers[0]) == 0 && Double(numbers[1]) == 0 {
+                        label.text = "Undefined"
+                        return
+                    }
                     var result = Double(numbers[0])! * Double(numbers[1])!
                     numbers.removeFirst(2)
                     operators.removeFirst()
                     numbers.insert(String(result), at: 0)
                 }
                 if operators.count > 1 && operators[1] == "/"{
+                    if Double(numbers[2])! == 0 {
+                        label.text = "Undefined"
+                        return
+                    }
                     var result = Double(numbers[1])! / Double(numbers[2])!
                     numbers.remove(at: 2)
                     numbers.remove(at: 1)
@@ -229,15 +276,20 @@ class ViewController: UIViewController {
                     numbers.insert(String(result), at: 1)
                 }
                 if  operators.count > 0 && operators[0] == "/"{
+                    if Double(numbers[1])! == 0 {
+                        label.text = "Undefined"
+                        return
+                    }
                     var result = Double(numbers[0])! / Double(numbers[1])!
                     numbers.removeFirst(2)
                     operators.removeFirst()
                     numbers.insert(String(result), at: 0)
                 }
                 
+      
                 
                 if  operators.count > 0 && operators[0] == "+"{
-                    var result = Double(numbers[0])! + Double(numbers[1])!
+                    let result = Double(numbers[0])! + Double(numbers[1])!
                     numbers.removeFirst(2)
                     operators.removeFirst()
                     numbers.insert(String(result), at: 0)
@@ -254,8 +306,7 @@ class ViewController: UIViewController {
 
         }
         
-        
-    }
     
+    }
     
 }
