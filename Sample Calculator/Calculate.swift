@@ -12,6 +12,7 @@ class Calculate {
                     result.append(operators[index])
                 }
             }
+        
             while numbers.count > 1 && operators.count >= 1 {
                 
                 while numbers.count > 1 && operators.count >= 1 {
@@ -62,7 +63,7 @@ class Calculate {
                         numbers.insert(String(result), at: 0)
                     }
                     if operators.count > 0 && operators[0] == String(MathOperator.minus){
-                        var result = Double(numbers[0])! - Double(numbers[1])!
+                        var result = Double(numbers[0])! - Double(numbers[1])! //- ile başlayınca hata veriyor fix etmen lazım 
                         numbers.removeFirst(2)
                         operators.removeFirst()
                         numbers.insert(String(result), at: 0)

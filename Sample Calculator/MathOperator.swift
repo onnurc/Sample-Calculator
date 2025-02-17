@@ -11,6 +11,5 @@ enum MathOperator {
     static let multiple : Character = "X"
     static let division : Character = "/"
     static let modulos : Character = "%"
-
 }
 

@@ -17,6 +17,4 @@ struct Constants {
     static let seven = "7"
     static let eight = "8"
     static let nine = "9"
-    
-
 }

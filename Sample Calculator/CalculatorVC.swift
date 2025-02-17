@@ -4,24 +4,29 @@
 //
 //  Created by Onur ÇETİNKAYA on 12.01.2025.
 //
-
 import UIKit
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var label: UILabel!
+    
+    let viewModel = CalculatorViewModel()
+
     private var result : Double = 0.0
     override func viewDidLoad() {
         super.viewDidLoad()
-        initSwipeAction()
+    initSwipeAction()
     }
-    private func initSwipeAction() {
+
+    
+     func initSwipeAction() {
         let gestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(gestureFired))
         gestureRecognizer.direction = .left
         gestureRecognizer.numberOfTouchesRequired = 1
         label.addGestureRecognizer(gestureRecognizer)
         label.isUserInteractionEnabled = true
     }
+    
     @objc func gestureFired(_ gesture: UISwipeGestureRecognizer){
         if let swipedLabel = gesture.view {
             if let currentText = label.text, !currentText.isEmpty {
@@ -31,53 +36,57 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+
     @IBAction func onPlusClicked(_ sender: Any) {
         addOperator(_operator: MathOperator.plus)
     }
+
     
-    private func addOperator(_operator : Character) {
+    private func addOperator(_operator: Character) {
         if let text = label.text {
-            if(text.isEmpty) { return } // Boşsa yazmaz
-            if let lastChar = text.last, lastChar == MathOperator.plus || lastChar == MathOperator.minus || lastChar == MathOperator.multiple || lastChar == MathOperator.division {
-                label.text = String(text.dropLast()) + String(_operator)
-            } else {
-                label.text = String(text) + String(_operator)
-            }
+            label.text = viewModel.addOperator(text: text, _operator: _operator)
+        }
+       
+    }
+  
+    
+    @IBAction func onSubstractClicked(_ sender: Any) {
+        if let text = label.text {
+            label.text = viewModel.addOperator(text: text, _operator: MathOperator.minus)
         }
     }
-    @IBAction func onSubstractClicked(_ sender: Any) {
-        addOperator(_operator: MathOperator.minus)
-    }
+    
     @IBAction func allClearClicked(_ sender: Any) {
         label.text = Constants.empty
     }
+    
     @IBAction func reversePNClicked(_ sender: Any) {
-        reversePositiveNegative()
+        if let t = label.text {
+            label.text = viewModel.reversePositiveNegative(text: t)
+        }
     }
+    
     @IBAction func modulos(_ sender: Any) {
-        addOperator(_operator: MathOperator.modulos)
-    }
+        if let text = label.text {
+            label.text = viewModel.addOperator(text: text, _operator: MathOperator.modulos)
+        }    }
+    
     @IBAction func multiplicationClicked(_ sender: Any) {
-        addOperator(_operator: MathOperator.multiple)
-    }
+        if let text = label.text {
+            label.text = viewModel.addOperator(text: text, _operator: MathOperator.multiple)
+        }    }
+    
     @IBAction func division(_ sender: Any) {
-        addOperator(_operator: MathOperator.division)
-    }
+        if let text = label.text {
+            label.text = viewModel.addOperator(text: text, _operator: MathOperator.division)
+        }    }
+    
     @IBAction func onResultClicked(_ sender: Any) {
-        let myText = label.text
-        let myTextArray = Array(myText!).map { String($0) }
-        if myTextArray.last == "+" || myTextArray.last == "-" || myTextArray.last == "X" || myTextArray.last == "/" {
-            return
+        if let text = label.text{
+            label.text = viewModel.onResultClicked(text: label.text ?? "")
         }
-        label.text = Calculate().calculateResult(text: label.text ?? "")
-    }
-    func reversePositiveNegative() {
-        if let currentText = label.text, let number = Double(currentText){ // convert text to double
-            let reservedNumber = -number
-            label.text = String(reservedNumber) // convert double to text again
-        }else{
-            print("There is no valid number")
-        }
+
     }
     
     
